@@ -14,7 +14,7 @@ class AirportRepositoryImpl(
         return airportDAO.searchAirports(query)
     }
 
-    override fun getDestinationFrom(iataCode: String): Flow<List<Airport>> {
+    override fun getDestinationsFrom(iataCode: String): Flow<List<Airport>> {
         return airportDAO.getDestinationsFrom(iataCode)
     }
 

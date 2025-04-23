@@ -8,7 +8,7 @@ interface AirportRepository {
 
     fun searchAirportsStream(query: String): Flow<List<Airport>>
 
-    fun getDestinationFrom(iataCode: String): Flow<List<Airport>>
+    fun getDestinationsFrom(iataCode: String): Flow<List<Airport>>
 
     fun getAllFavouriteAirportsStream(): Flow<List<FavouriteAirport>>
 
