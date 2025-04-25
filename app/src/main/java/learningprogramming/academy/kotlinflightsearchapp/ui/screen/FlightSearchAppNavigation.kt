@@ -18,7 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import learningprogramming.academy.kotlinflightsearchapp.viewmodel.FlightSearchViewModel
 
 @Composable
-fun FlightSearchApp() {
+fun FlightSearchAppNavigation() {
     Scaffold(
         modifier = Modifier.statusBarsPadding()
     ) {
