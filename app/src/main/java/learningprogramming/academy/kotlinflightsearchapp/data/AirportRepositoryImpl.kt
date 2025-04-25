@@ -26,7 +26,11 @@ class AirportRepositoryImpl(
         favouriteAirportDAO.insert(favouriteAirport)
     }
 
-    override suspend fun removeFavouriteAirport(favouriteAirport: FavouriteAirport) {
-        favouriteAirportDAO.delete(favouriteAirport)
+    override suspend fun removeFavouriteAirport(departureCode: String, destinationCode: String) {
+        favouriteAirportDAO.delete(departureCode, destinationCode)
+    }
+
+    override fun getAirportByCode(code: String): Flow<Airport> {
+        return airportDAO.getAirportByCode(code)
     }
 }

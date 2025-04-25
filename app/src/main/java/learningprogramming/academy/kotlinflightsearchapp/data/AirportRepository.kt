@@ -14,5 +14,7 @@ interface AirportRepository {
 
     suspend fun addFavouriteAirport(favouriteAirport: FavouriteAirport)
 
-    suspend fun removeFavouriteAirport(favouriteAirport: FavouriteAirport)
+    suspend fun removeFavouriteAirport(departureCode: String, destinationCode: String)
+
+    fun getAirportByCode(code: String): Flow<Airport?>
 }
