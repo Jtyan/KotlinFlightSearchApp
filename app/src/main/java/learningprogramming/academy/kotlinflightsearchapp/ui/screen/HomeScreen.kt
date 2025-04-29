@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -23,7 +22,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import learningprogramming.academy.kotlinflightsearchapp.ui.components.SelectedSearchList
 import learningprogramming.academy.kotlinflightsearchapp.ui.components.FavouritesList
 import learningprogramming.academy.kotlinflightsearchapp.viewmodel.FlightSearchViewModel
@@ -48,9 +46,8 @@ fun HomeScreen(
         Column(
             verticalArrangement = Arrangement.Top,
             modifier = Modifier
-                .fillMaxSize()
                 .padding(paddingValues)
-                .padding(top = 12.dp, start = 8.dp, end = 8.dp)
+                .fillMaxSize()
         ) {
             SearchBarButton(
                 onClick = onClick,
@@ -105,10 +102,10 @@ fun SearchBarButton(
         expanded = false,
         onExpandedChange = {},
         colors = SearchBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            dividerColor = MaterialTheme.colorScheme.primaryContainer
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            dividerColor = MaterialTheme.colorScheme.onSecondaryContainer
         ),
-        modifier = modifier.height(52.dp)
+        modifier = modifier
     ) {}
 }
 
@@ -124,8 +121,8 @@ fun FlightSearchTopAppBar(
             )
         },
         colors = TopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            scrolledContainerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            containerColor = MaterialTheme.colorScheme.primary,
+            scrolledContainerColor = MaterialTheme.colorScheme.onPrimary,
             navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
             titleContentColor = MaterialTheme.colorScheme.onPrimary,
             actionIconContentColor = MaterialTheme.colorScheme.onPrimary

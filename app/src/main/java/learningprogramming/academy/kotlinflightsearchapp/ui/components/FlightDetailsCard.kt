@@ -41,8 +41,8 @@ fun FlightDetailsCard(
             bottomEnd = 0.dp
         ),
         colors = CardColors(
-            contentColor = Color.Black,
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            containerColor = MaterialTheme.colorScheme.surfaceContainer,
             disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
             disabledContentColor = Color.Black
         ),
@@ -59,7 +59,6 @@ fun FlightDetailsCard(
             ) {
                 Text(
                     text = "DEPART",
-                    color = Color.DarkGray,
                     fontSize = 12.sp,
                     modifier = Modifier.padding(4.dp)
                 )
@@ -69,7 +68,6 @@ fun FlightDetailsCard(
                 )
                 Text(
                     text = "ARRIVE",
-                    color = Color.DarkGray,
                     fontSize = 12.sp,
                     modifier = Modifier.padding(4.dp)
                 )
@@ -96,7 +94,11 @@ fun FlightDetailsCard(
             ) {
                 Icon(
                     imageVector = Icons.Default.Star,
-                    tint = if (isFavourite) Color.Red else Color.DarkGray,
+                    tint =
+                        if (isFavourite)
+                            MaterialTheme.colorScheme.primary
+                        else
+                            MaterialTheme.colorScheme.surfaceBright,
                     contentDescription = "favourite",
                     modifier = Modifier
                         .weight(1f)
