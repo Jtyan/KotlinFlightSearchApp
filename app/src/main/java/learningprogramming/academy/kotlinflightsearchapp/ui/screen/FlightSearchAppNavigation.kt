@@ -6,10 +6,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
@@ -27,16 +23,17 @@ fun FlightSearchAppNavigation() {
                 .padding(it)
                 .fillMaxSize()
         ) {
-            val flightSearchViewModel: FlightSearchViewModel = viewModel(factory = FlightSearchViewModel.Factory )
+            val flightSearchViewModel: FlightSearchViewModel =
+                viewModel(factory = FlightSearchViewModel.Factory)
             val navController = rememberNavController()
-            var searchBarActive by remember {mutableStateOf(false) }
+            val searchBarActive = flightSearchViewModel.searchBarActive
 
             NavHost(navController = navController, startDestination = "home") {
                 composable("home") {
                     HomeScreen(
                         viewModel = flightSearchViewModel,
                         onClick = {
-                            searchBarActive = !searchBarActive
+                            flightSearchViewModel.toggleSearchBarActive()
                             navController.navigate("search")
                         }
                     )
@@ -46,7 +43,7 @@ fun FlightSearchAppNavigation() {
                         viewModel = flightSearchViewModel,
                         searchBarActive = searchBarActive,
                         onBackClick = {
-                            searchBarActive = !searchBarActive
+                            flightSearchViewModel.toggleSearchBarActive()
                             navController.navigateUp()
                         }
                     )

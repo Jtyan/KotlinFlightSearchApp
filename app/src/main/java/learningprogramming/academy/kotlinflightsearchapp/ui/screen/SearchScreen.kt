@@ -47,6 +47,9 @@ fun SearchScreen(
                 if(searchQuery.isEmpty()) {
                     viewModel.clearSelectedAirport()
                     onBackClick()
+                } else if (autoCompleteSuggestions.isNotEmpty()){
+                    viewModel.selectAirport(autoCompleteSuggestions.first())
+                    onBackClick()
                 }
             },
             onBackClick = onBackClick,
