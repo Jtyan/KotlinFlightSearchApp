@@ -8,6 +8,7 @@ plugins {
     So it needs ksp plugin to set up the KSP processor
     */
     alias(libs.plugins.ksp)
+    alias(libs.plugins.protobufDataStore)
 }
 
 android {
@@ -61,12 +62,17 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     //KSP is a powerful and yet simple API for parsing Kotlin annotations
     ksp(libs.androidx.room.compiler)
-    //DataStore
+    //DataStore-Preferences
     implementation(libs.androidx.datastore.preferences)
     //Viewmodel
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     //Navigation
     implementation(libs.androidx.navigation.compose)
+    //DataStore-Protobuf
+    implementation (libs.androidx.datastore)
+    implementation (libs.androidx.datastore.core)
+    implementation (libs.protobuf.javalite)
+//    implementation(libs.androidx.datastore.protobuf)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -75,4 +81,19 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.24.4"
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                create("java") {
+                    option("lite") // important for Android - use "lite" not "full" protobuf
+                }
+            }
+        }
+    }
 }
