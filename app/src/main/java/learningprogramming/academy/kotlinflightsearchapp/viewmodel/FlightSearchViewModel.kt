@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
@@ -22,9 +23,12 @@ import learningprogramming.academy.kotlinflightsearchapp.AirportApplication
 import learningprogramming.academy.kotlinflightsearchapp.data.Airport
 import learningprogramming.academy.kotlinflightsearchapp.data.AirportRepositoryImpl
 import learningprogramming.academy.kotlinflightsearchapp.data.FavouriteAirport
+import learningprogramming.academy.kotlinflightsearchapp.data.local.UserPreferenceRepository
+import learningprogramming.academy.kotlinflightsearchapp.data.local.toAirportOrNull
 
 class FlightSearchViewModel(
-    private val airportRepository: AirportRepositoryImpl
+    private val airportRepository: AirportRepositoryImpl,
+    private val userPreferenceRepository: UserPreferenceRepository
 ) : ViewModel() {
 
     private val _searchQuery = MutableStateFlow("")
@@ -66,12 +70,33 @@ class FlightSearchViewModel(
                 initialValue = emptyList()
             )
 
+    init {
+        viewModelScope.launch {
+            combine(
+                userPreferenceRepository.searchQuery,
+                userPreferenceRepository.selectedAirportFlow
+            ) { savedQuery, savedSelectedAirport ->
+                savedQuery to savedSelectedAirport
+            }.collect { (savedQuery, savedSelectedAirport) ->
+                _searchQuery.value = savedQuery
+                _selectedAirport.value =
+                    savedSelectedAirport.toAirportOrNull()
+            }
+        }
+    }
+
     fun updateSearchQuery(query: String) {
         _searchQuery.value = query
+        viewModelScope.launch {
+            userPreferenceRepository.saveSearchQuery(query)
+        }
     }
 
     fun selectAirport(airport: Airport) {
         _selectedAirport.value = airport
+        viewModelScope.launch {
+            userPreferenceRepository.saveSelectedAirport(airport)
+        }
     }
 
     fun clearSelectedAirport() {
@@ -143,9 +168,15 @@ class FlightSearchViewModel(
             initializer {
                 val application = (this[APPLICATION_KEY] as AirportApplication)
                 val airportRepository = application.container.airportRepository
-                FlightSearchViewModel(airportRepository)
+                val userPreferenceRepository = application.container.userPreferenceRepository
+                FlightSearchViewModel(
+                    airportRepository = airportRepository,
+                    userPreferenceRepository = userPreferenceRepository
+                )
             }
         }
     }
 }
+
+
 
