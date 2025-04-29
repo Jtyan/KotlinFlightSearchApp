@@ -3,8 +3,10 @@ package learningprogramming.academy.kotlinflightsearchapp.ui.screen
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,6 +24,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import learningprogramming.academy.kotlinflightsearchapp.ui.components.SelectedSearchList
 import learningprogramming.academy.kotlinflightsearchapp.ui.components.FavouritesList
 import learningprogramming.academy.kotlinflightsearchapp.viewmodel.FlightSearchViewModel
@@ -42,11 +45,13 @@ fun HomeScreen(
         topBar = {
             FlightSearchTopAppBar()
         },
+        modifier = Modifier.statusBarsPadding()
     ) { paddingValues ->
         Column(
             verticalArrangement = Arrangement.Top,
             modifier = Modifier
                 .padding(paddingValues)
+                .padding(horizontal = 8.dp)
                 .fillMaxSize()
         ) {
             SearchBarButton(
@@ -111,9 +116,7 @@ fun SearchBarButton(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FlightSearchTopAppBar(
-    modifier: Modifier = Modifier
-) {
+fun FlightSearchTopAppBar() {
     TopAppBar(
         title = {
             Text(
@@ -127,6 +130,6 @@ fun FlightSearchTopAppBar(
             titleContentColor = MaterialTheme.colorScheme.onPrimary,
             actionIconContentColor = MaterialTheme.colorScheme.onPrimary
         ),
-        modifier = modifier
+        windowInsets = WindowInsets(0, 0, 0, 0)
     )
 }

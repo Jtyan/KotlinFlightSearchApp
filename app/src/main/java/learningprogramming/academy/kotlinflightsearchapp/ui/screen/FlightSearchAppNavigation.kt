@@ -15,41 +15,35 @@ import learningprogramming.academy.kotlinflightsearchapp.viewmodel.FlightSearchV
 
 @Composable
 fun FlightSearchAppNavigation() {
-    Scaffold(
-        modifier = Modifier.statusBarsPadding()
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
     ) {
-        Surface(
-            modifier = Modifier
-                .padding(it)
-                .fillMaxSize()
-        ) {
-            val flightSearchViewModel: FlightSearchViewModel =
-                viewModel(factory = FlightSearchViewModel.Factory)
-            val navController = rememberNavController()
-            val searchBarActive = flightSearchViewModel.searchBarActive
+        val flightSearchViewModel: FlightSearchViewModel =
+            viewModel(factory = FlightSearchViewModel.Factory)
+        val navController = rememberNavController()
+        val searchBarActive = flightSearchViewModel.searchBarActive
 
-            NavHost(navController = navController, startDestination = "home") {
-                composable("home") {
-                    HomeScreen(
-                        viewModel = flightSearchViewModel,
-                        onClick = {
-                            flightSearchViewModel.toggleSearchBarActive()
-                            navController.navigate("search")
-                        }
-                    )
-                }
-                composable("search") {
-                    SearchScreen(
-                        viewModel = flightSearchViewModel,
-                        searchBarActive = searchBarActive,
-                        onBackClick = {
-                            flightSearchViewModel.toggleSearchBarActive()
-                            navController.navigateUp()
-                        }
-                    )
-                }
+        NavHost(navController = navController, startDestination = "home") {
+            composable("home") {
+                HomeScreen(
+                    viewModel = flightSearchViewModel,
+                    onClick = {
+                        flightSearchViewModel.toggleSearchBarActive()
+                        navController.navigate("search")
+                    }
+                )
             }
-
+            composable("search") {
+                SearchScreen(
+                    viewModel = flightSearchViewModel,
+                    searchBarActive = searchBarActive,
+                    onBackClick = {
+                        flightSearchViewModel.toggleSearchBarActive()
+                        navController.navigateUp()
+                    }
+                )
+            }
         }
     }
 }
